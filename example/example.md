@@ -35,6 +35,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String publicAddress = "";
+  final connector = WalletConnector(
+      const AppInfo(name: "Mobile App", url: "https://example.mobile.com"));
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             },
             TextButton(
-                onPressed: () {
-                  startConnect();
+                onPressed: () async {
+                  await startConnect();
                 },
                 child: const Text('Start Connect'))
           ],
@@ -64,16 +66,18 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void startConnect() async {
+  startConnect() async {
     setState(() {
       publicAddress = '';
     });
-    var connector = WalletConnector(
-        appInfo: const AppInfo(
-            name: "Mobile App", url: "https://example.mobile.com"));
     var address = await connector.publicAddress().catchError((onError) {
-      return onError.toString();
+      throw onError;
     });
+
+    // in case you want open wallet by your self
+    // connector.initSession((uri) {
+    //   print(uri);
+    // });
     setState(() {
       publicAddress = address;
     });
