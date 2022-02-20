@@ -5,12 +5,11 @@ Once installed, you can simply get verified address from wallet.
 
 ## Usage
 ```dart
-/// Create a connector
-var connector = WalletConnector(
-    appInfo: const AppInfo(
-        name: "Mobile App", url: "https://example.mobile.com"));
-/// Get address
-var address = await connector.publicAddress().catchError((onError) {
-    return onError.toString();
-});
+    /// Create a connector
+    var connector = WalletConnector(
+        const AppInfo(name: "Mobile App", url: "https://example.mobile.com"));
+    /// Get address
+    var address = await connector.publicAddress().catchError((onError) {
+        throw onError;
+    });
 ```

@@ -66,10 +66,9 @@ class _MyHomePageState extends State<MyHomePage> {
       publicAddress = '';
     });
     var connector = WalletConnector(
-        appInfo: const AppInfo(
-            name: "Mobile App", url: "https://example.mobile.com"));
+        const AppInfo(name: "Mobile App", url: "https://example.mobile.com"));
     var address = await connector.publicAddress().catchError((onError) {
-      return onError.toString();
+      throw onError;
     });
     setState(() {
       publicAddress = address;

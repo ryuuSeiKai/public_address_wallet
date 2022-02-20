@@ -1,6 +1,6 @@
 name: public_address_wallet
-description: A package to get verified public address from wallet.
-version: 0.0.2
+description: A package to get verified public address from wallet using WalletConnect protocol v1.
+version: 0.0.3
 homepage: https://walletconnect.org/
 repository: https://github.com/phanvantai/public_address_wallet
 issue_tracker: https://github.com/phanvantai/public_address_wallet/issues
@@ -12,14 +12,35 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # WalletConnect
-  walletconnect_dart: ^0.0.7
+  # WebSocket Channel
+  web_socket_channel: ^2.1.0
+
+  # Cryptography
+  cryptography: ^2.0.5
   
   # URL Launcher
   url_launcher: ^6.0.12
+
+  # UUID
+  uuid: ^3.0.6
+
+  # Hex
+  convert: ^3.0.1
+
+  # JSON Annotation
+  json_annotation: ^4.4.0
+
+  # Stack trace
+  stack_trace: ^1.10.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^1.0.4
+
+  # JSON Serialization
+  json_serializable: ^6.1.4
+
+  # Build runner
+  build_runner: ^2.1.7

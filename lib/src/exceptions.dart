@@ -1,1 +1,0 @@
-class WalletConnectException implements Exception {}

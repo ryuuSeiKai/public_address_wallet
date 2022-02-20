@@ -4,10 +4,16 @@ import 'package:public_address_wallet/src/app_info.dart';
 import 'package:public_address_wallet/src/deeplink_helper.dart';
 import 'package:public_address_wallet/src/wallet.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
 
+import 'wallet_connect_sdk/session/peer_meta.dart';
+import 'wallet_connect_sdk/walletconnect.dart';
+
+/// WalletConnector is an object for implement WalletConnect protocol for
+/// mobile apps using deep linking to connect with wallets.
 class WalletConnector {
+  // walletconnect
   final WalletConnect connector;
+  // mobile app info
   final AppInfo? appInfo;
 
   const WalletConnector._internal({
@@ -15,7 +21,8 @@ class WalletConnector {
     required this.appInfo,
   });
 
-  factory WalletConnector({String? bridge, AppInfo? appInfo}) {
+  /// Connector using brigde 'https://bridge.walletconnect.org' by default.
+  factory WalletConnector(AppInfo? appInfo, {String? bridge}) {
     final connector = WalletConnect(
       bridge: bridge ?? 'https://bridge.walletconnect.org',
       clientMeta: PeerMeta(
@@ -35,6 +42,13 @@ class WalletConnector {
     );
   }
 
+  /// Get public address, wallet param only use on iOS and using metamask by default
+  ///
+  /// flow: connector init session then open deeplink with uri from session
+  /// if can not launch throw an error else
+  /// if user approve session in wallet return a valid public address
+  /// if user reject session in wallet, or something wrong happen throw an error
+  /// in other case throw 'Unexpected exception'
   Future<String> publicAddress({Wallet wallet = Wallet.metamask}) async {
     if (!connector.connected) {
       final session = await connector.createSession(
@@ -51,14 +65,14 @@ class WalletConnector {
         var address = session.accounts.first;
         return address;
       } else {
-        return '';
+        throw 'Unexpected exception';
       }
     } else {
       var oldSession = await connector.sessionStorage?.getSession();
       if (oldSession != null && oldSession.accounts.isNotEmpty) {
         return oldSession.accounts.first;
       } else {
-        return '';
+        throw 'Unexpected exception';
       }
     }
   }
