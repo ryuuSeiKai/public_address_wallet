@@ -8,6 +8,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'wallet_connect_sdk/session/peer_meta.dart';
 import 'wallet_connect_sdk/walletconnect.dart';
 
+typedef OnSessionUriCallback = void Function(String uri);
+
 /// WalletConnector is an object for implement WalletConnect protocol for
 /// mobile apps using deep linking to connect with wallets.
 class WalletConnector {
@@ -68,12 +70,26 @@ class WalletConnector {
         throw 'Unexpected exception';
       }
     } else {
-      var oldSession = await connector.sessionStorage?.getSession();
-      if (oldSession != null && oldSession.accounts.isNotEmpty) {
-        return oldSession.accounts.first;
+      if (connector.session.accounts.isNotEmpty) {
+        return connector.session.accounts.first;
       } else {
         throw 'Unexpected exception';
       }
     }
+  }
+
+  // just init session
+  void initSession(void Function(String)? onDisplayUri) async {
+    if (!connector.connected) {
+      await connector.createSession(onDisplayUri: onDisplayUri);
+    } else {
+      if (onDisplayUri != null) {
+        onDisplayUri(connector.session.toUri());
+      }
+    }
+  }
+
+  void dispose() {
+    connector.killSession();
   }
 }

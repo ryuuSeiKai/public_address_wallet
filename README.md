@@ -14,6 +14,14 @@ Once installed, you can simply get verified address from wallet.
     });
 ```
 
+If you want open wallet by your self, use `initSession` and get uri
+```dart
+    connector.initSession((uri) {
+        // use session uri and connect to wallet by your way
+        print(uri);
+    });
+```
+
 ## Credits
 
 - [Tai Phan Van](https://github.com/phanvantai)
