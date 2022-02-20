@@ -13,3 +13,10 @@ Once installed, you can simply get verified address from wallet.
         throw onError;
     });
 ```
+
+## Credits
+
+- [Tai Phan Van](https://github.com/phanvantai)
+- [Tomas Verhelst](https://github.com/rootsoft)
+- [Tom Friml](https://github.com/3ph)  
+- [All Contributors](../../contributors)
