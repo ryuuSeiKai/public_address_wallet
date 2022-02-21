@@ -1,6 +1,6 @@
 name: public_address_wallet
 description: A package to get verified public address from wallet using WalletConnect protocol v1.
-version: 0.0.4
+version: 0.0.5
 homepage: https://walletconnect.org/
 repository: https://github.com/phanvantai/public_address_wallet
 issue_tracker: https://github.com/phanvantai/public_address_wallet/issues

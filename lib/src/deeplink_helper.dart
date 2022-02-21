@@ -9,7 +9,11 @@ class DeeplinkHelper {
     if (Platform.isIOS) {
       return wallet.universalLink + wcBridge + Uri.encodeComponent(uri);
     } else {
-      return uri;
+      if (wallet.deeplink != null && wallet.deeplink!.isNotEmpty) {
+        return wallet.deeplink! + wcBridge + Uri.encodeComponent(uri);
+      } else {
+        return uri;
+      }
     }
   }
 }

@@ -1,3 +1,7 @@
+## 0.0.5
+
+* update specify deeplink for android
+
 ## 0.0.4
 
 * update init session for custom open wallet
