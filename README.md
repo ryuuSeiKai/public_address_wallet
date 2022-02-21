@@ -9,7 +9,7 @@ Once installed, you can simply get verified address from wallet.
     var connector = WalletConnector(
         const AppInfo(name: "Mobile App", url: "https://example.mobile.com"));
     /// create wallet need open 
-    var rainbowMe = const Wallet(universalLink: 'https://rainbow.me/', deeplink: 'rainbow://');
+    var rainbowMe = const Wallet(universalLink: 'https://rainbow.me/');
     /// Get address
     var address = await connector.publicAddress(wallet: rainbowMe).catchError((onError) {
       throw onError;

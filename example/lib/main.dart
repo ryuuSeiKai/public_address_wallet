@@ -32,8 +32,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String publicAddress = "";
-  final connector = WalletConnector(
-      AppInfo(name: "Mobile App", url: "https://example.mobile.com"));
 
   @override
   Widget build(BuildContext context) {
@@ -53,27 +51,32 @@ class _MyHomePageState extends State<MyHomePage> {
               )
             },
             TextButton(
-                onPressed: () async {
-                  await startConnect();
-                },
-                child: const Text('Start Connect'))
+                onPressed: () => startConnect(Wallet.metamask),
+                child: const Text('Start Connect Metamask')),
+            TextButton(
+                onPressed: () => startConnect(Wallet.trustWallet),
+                child: const Text('Start Connect Trust Wallet')),
+            TextButton(
+                onPressed: () => startConnect(Wallet.rainbowMe),
+                child: const Text('Start Connect Rainbow'))
           ],
         ),
       ),
     );
   }
 
-  startConnect() async {
+  startConnect(Wallet wallet) async {
+    final connector = WalletConnector(
+        AppInfo(name: "Mobile App", url: "https://example.mobile.com"));
     setState(() {
       publicAddress = '';
     });
-    var rainbowMe = const Wallet(
-        universalLink: 'https://rainbow.me/', deeplink: 'rainbow://');
     var address =
-        await connector.publicAddress(wallet: rainbowMe).catchError((onError) {
+        await connector.publicAddress(wallet: wallet).catchError((onError) {
+      print(onError);
       throw onError;
     });
-
+    print(address);
     // in case you want open wallet by your self
     // connector.initSession((uri) {
     //   print(uri);

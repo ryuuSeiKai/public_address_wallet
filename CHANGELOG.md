@@ -1,3 +1,8 @@
+## 0.0.6
+
+* update example
+* remove deeplink android
+
 ## 0.0.5
 
 * update specify deeplink for android
