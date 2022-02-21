@@ -33,7 +33,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   String publicAddress = "";
   final connector = WalletConnector(
-      const AppInfo(name: "Mobile App", url: "https://example.mobile.com"));
+      AppInfo(name: "Mobile App", url: "https://example.mobile.com"));
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       publicAddress = '';
     });
-    var address = await connector.publicAddress().catchError((onError) {
+    var rainbowMe = const Wallet(
+        universalLink: 'https://rainbow.me/', deeplink: 'rainbow://');
+    var address =
+        await connector.publicAddress(wallet: rainbowMe).catchError((onError) {
       throw onError;
     });
 

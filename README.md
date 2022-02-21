@@ -8,7 +8,18 @@ Once installed, you can simply get verified address from wallet.
     /// Create a connector
     var connector = WalletConnector(
         const AppInfo(name: "Mobile App", url: "https://example.mobile.com"));
+    /// create wallet need open 
+    var rainbowMe = const Wallet(universalLink: 'https://rainbow.me/', deeplink: 'rainbow://');
     /// Get address
+    var address = await connector.publicAddress(wallet: rainbowMe).catchError((onError) {
+      throw onError;
+    });
+```
+
+Currently, package already have `Wallet.metamask`, `Wallet.trustWallet` and `Wallet.rainbowMe` constants.
+
+```dart
+    /// package open Metamask by default
     var address = await connector.publicAddress().catchError((onError) {
         throw onError;
     });
