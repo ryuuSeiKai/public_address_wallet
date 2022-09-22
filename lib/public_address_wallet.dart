@@ -5,3 +5,4 @@ export 'src/wallet.dart';
 export 'src/wallet_connector.dart';
 
 export 'src/wallet_connect_sdk/providers/ethereum_walletconnect_provider.dart';
+export 'src/wallet_connect_sdk/providers/algorand_walletconnect_provider.dart';
