@@ -58,12 +58,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: const Text('Start Connect Trust Wallet')),
             TextButton(
                 onPressed: () => startConnect(Wallet.rainbowMe),
-                child: const Text('Start Connect Rainbow'))
+                child: const Text('Start Connect Rainbow')),
+            ElevatedButton(
+                onPressed: publicAddress != ""
+                    ? () async {
+                        final data = await ethProvider.signTransaction(
+                            from: publicAddress, to: "");
+                        print(data);
+                      }
+                    : null,
+                child: Text('Action Wallet')),
+            TextButton(
+                onPressed: () => startConnect(Wallet.rainbowMe),
+                child: const Text('Action Wallet'))
           ],
         ),
       ),
     );
   }
+
+  bool isConnected = false;
+
+  late EthereumWalletConnectProvider ethProvider;
 
   startConnect(Wallet wallet) async {
     final connector = WalletConnector(
@@ -77,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       throw onError;
     });
     print(address);
+    ethProvider = EthereumWalletConnectProvider(connector.connector);
     // in case you want open wallet by your self
     // connector.initSession((uri) {
     //   print(uri);

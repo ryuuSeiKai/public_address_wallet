@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:public_address_wallet/src/app_info.dart';
 import 'package:public_address_wallet/src/deeplink_helper.dart';
 import 'package:public_address_wallet/src/wallet.dart';
@@ -43,6 +45,21 @@ class WalletConnector {
       appInfo: appInfo,
     );
   }
+  Future<void> launchUniversalLinkIos(Uri url, Wallet wallet,
+      [LaunchMode mode = LaunchMode.externalApplication]) async {
+    // var decrypted = Encryptor.decrypt(key, encrypted);
+
+    final bool nativeAppLaunchSucceeded = await launchUrl(
+      url,
+      mode: mode,
+    );
+    if (!nativeAppLaunchSucceeded) {
+      await launchUrl(
+        url,
+        mode: mode,
+      );
+    }
+  }
 
   /// Get public address, wallet param only use on iOS and using metamask by default
   ///
@@ -56,8 +73,11 @@ class WalletConnector {
       final session = await connector.createSession(
         onDisplayUri: (uri) async {
           var deeplink = DeeplinkHelper.getDeeplink(wallet: wallet, uri: uri);
-          if (!await launch(deeplink, forceSafariVC: false)) {
-            throw 'Could not open $deeplink';
+          final deeplinkUri = Uri.parse(deeplink);
+          if (await canLaunchUrl(deeplinkUri)) {
+            launchUniversalLinkIos(deeplinkUri, wallet);
+          } else {
+            launchUniversalLinkIos(Uri.parse(wallet.universalLink), wallet);
           }
         },
       ).catchError((onError) {
