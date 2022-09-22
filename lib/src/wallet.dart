@@ -10,7 +10,7 @@ class Wallet {
   const Wallet({required this.universalLink, this.deeplink});
 
   static const Wallet metamask = Wallet(
-      universalLink: 'https://metamask.app.link/', deeplink: 'metamask://');
+      universalLink: 'https://metamask.app.link', deeplink: 'metamask://');
   static const Wallet trustWallet = Wallet(
       universalLink: 'https://link.trustwallet.com/', deeplink: 'trust://');
   static const Wallet rainbowMe =

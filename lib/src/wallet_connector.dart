@@ -74,9 +74,11 @@ class WalletConnector {
         onDisplayUri: (uri) async {
           var deeplink = DeeplinkHelper.getDeeplink(wallet: wallet, uri: uri);
           final deeplinkUri = Uri.parse(deeplink);
-          if (await canLaunchUrl(deeplinkUri)) {
-            launchUniversalLinkIos(deeplinkUri, wallet);
-          } else {
+          try {
+            if (!await launch(deeplink, forceSafariVC: false)) {
+              throw 'Could not open $deeplink';
+            }
+          } on PlatformException catch (e) {
             launchUniversalLinkIos(Uri.parse(wallet.universalLink), wallet);
           }
         },
