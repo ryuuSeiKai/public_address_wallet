@@ -45,7 +45,7 @@ class WalletConnector {
       appInfo: appInfo,
     );
   }
-  Future<void> launchUniversalLinkIos(Uri url, Wallet wallet,
+  Future<void> launchScheme(Uri url,
       [LaunchMode mode = LaunchMode.externalApplication]) async {
     // var decrypted = Encryptor.decrypt(key, encrypted);
 
@@ -79,7 +79,7 @@ class WalletConnector {
               throw 'Could not open $deeplink';
             }
           } on PlatformException catch (e) {
-            launchUniversalLinkIos(Uri.parse(wallet.universalLink), wallet);
+            launchScheme(Uri.parse(wallet.universalLink));
           }
         },
       ).catchError((onError) {
@@ -113,5 +113,13 @@ class WalletConnector {
 
   void dispose() {
     connector.killSession();
+  }
+
+  void handleIntegrateAction(Future action, Function(dynamic data) callback,
+      {Wallet wallet = Wallet.metamask}) {
+    // register excute action and callback
+    action.then(callback);
+    // immidiately redirect app to open App to confirm action
+    launchScheme(Uri.parse(wallet.universalLink));
   }
 }
