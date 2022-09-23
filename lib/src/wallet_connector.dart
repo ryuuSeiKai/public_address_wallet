@@ -115,8 +115,10 @@ class WalletConnector {
     connector.killSession();
   }
 
-  void handleIntegrateAction(Future action, Function(dynamic data) callback,
-      {Wallet wallet = Wallet.metamask}) {
+  void handleIntegrateAction(
+      {required Future action,
+      required Function(dynamic data) callback,
+      Wallet wallet = Wallet.metamask}) {
     // register excute action and callback
     action.then(callback);
     // immidiately redirect app to open App to confirm action
